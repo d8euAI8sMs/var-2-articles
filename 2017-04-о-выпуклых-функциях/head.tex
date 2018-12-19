@@ -1,0 +1,239 @@
+%% ===============================================
+%% =============== Document Class ================
+%% ===============================================
+
+
+
+\documentclass[12pt,a4paper,openright]{book}
+
+
+
+%% ===============================================
+%% =============== Packages ======================
+%% ===============================================
+
+
+
+%% Language Support
+\usepackage[T1,T2A] 		{fontenc}
+\usepackage[utf8]   		{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{microtype}
+\usepackage{csquotes}
+\usepackage[yyyymmdd,hhmmss]{datetime}
+\usepackage{times}
+
+%% Math
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{mathtext}
+
+%% Layout & text
+%\usepackage{a4wide}
+\usepackage{lipsum}
+\usepackage{newfloat}
+\usepackage{caption}
+%%\usepackage{subcaption}
+\usepackage{titlesec}
+\usepackage{fancybox, fancyhdr} %% Colontitles
+\usepackage{indentfirst}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{mdframed}
+\usepackage{enumitem}
+\ifdefined\usegraphics
+    \usepackage{graphicx}
+    \usepackage{subfig}
+\fi
+\ifdefined\useappendix
+    \usepackage[titletoc,toc]{appendix}
+\fi
+\ifdefined\usealgo
+    \usepackage{algorithm2e}
+\fi
+\ifdefined\usecode
+    \usepackage[cache=false,newfloat]{minted}
+\fi
+
+
+
+
+%% ===============================================
+%% =============== Package Config ================
+%% ===============================================
+
+
+
+
+\ifdefined\usegraphics
+    \DeclareGraphicsExtensions{.pdf,.png,.jpg}
+    \graphicspath{{./img/}}
+    \captionsetup[figure]{justification=centering}
+\fi
+
+%% ===============================================
+
+\theoremstyle{definition}
+\newtheorem{definition}{\textls[150]{Определение}}[chapter]
+\theoremstyle{definition}
+\newtheorem{problem}{\textls[150]{Задача}}[chapter]
+
+%% ===============================================
+
+\setlist{nosep}
+
+%% ===============================================
+
+\geometry{left=1cm}
+\geometry{right=2cm}
+\geometry{top=2cm}
+\geometry{bottom=2cm}
+
+\numberwithin{equation}{chapter}
+
+\makeatletter
+
+\titleformat
+{\chapter} % command
+[display] % shape
+{\bfseries\huge} % format
+{\slshape\MakeUppercase{\ifnum\pdfstrcmp{\@currenvir}{appendices}=0\appendixname\else\chaptername\fi} \thechapter} % label
+{0.5ex} % sep
+{
+	\rule{\textwidth}{1pt}
+	\vspace{1ex}
+	\centering
+} % before-code
+[
+\vspace{-0.5ex}%
+\rule{\textwidth}{0.3pt}
+] % after-code
+
+\titleformat
+{\section} % command
+[block] % shape
+{\bfseries\Large} % format
+{\S\ \thesection\quad} % label
+{0.5ex} % sep
+{} % before-code
+[] % after-code
+
+\makeatother
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\slshape\leftmark}
+\fancyhead[RE]{$\blacksquare$\ \bfseries\thepage}
+\fancyhead[RO]{\slshape\rightmark}
+\fancyhead[LO]{\bfseries\thepage\ $\blacksquare$}
+\renewcommand{\headrulewidth}{1px}
+\fancyfoot[LE]{\slshape\rightmark}
+\fancyfoot[RE]{$\blacksquare$\ \bfseries\thepage}
+\fancyfoot[RO]{\slshape\leftmark}
+\fancyfoot[LO]{\bfseries\thepage\ $\blacksquare$}
+\renewcommand{\footrulewidth}{1px}
+
+\renewcommand{\cleardoublepage}{\clearpage}
+
+\makeatletter
+\renewcommand{\@biblabel}[1]{#1.}
+\makeatother
+
+\makeatletter
+\let\ps@plain\ps@empty
+\makeatother
+
+%% ===============================================
+
+\hypersetup{
+	colorlinks,
+	citecolor=black,
+	filecolor=black,
+	linkcolor=black,
+	urlcolor=black
+}
+
+\renewcommand{\sectionautorefname}{\S}
+\newcommand{\definitionautorefname}{опр.}
+\newcommand{\problemautorefname}{з.}
+
+%% ===============================================
+
+\ifdefined\usecode
+
+\usemintedstyle{vs}
+%%\SetupFloatingEnvironment{listing}{name=Листинг}
+\captionsetup[listing]{name=Листинг,justification=centering}
+
+\makeatletter
+\renewenvironment{minted@colorbg}[1]{
+    %\setlength{\fboxsep}{-\fboxrule}
+    \def\minted@bgcol{#1}
+    \noindent%
+    \begin{lrbox}{\minted@bgbox}
+        \begin{minipage}{\linewidth-2\fboxsep}}
+        {\end{minipage}
+    \end{lrbox}%
+    \colorbox{\minted@bgcol}{\usebox{\minted@bgbox}}}
+\makeatother
+
+\definecolor{mintedbg}{rgb}{1.0,1.0,1.0}
+%% \cppcode Environment
+\newminted{cpp}{
+    xleftmargin=2ex,
+    numbersep=1ex,
+    autogobble,
+    frame=lines,
+    framesep=2mm,
+    fontsize=\footnotesize,
+    linenos,
+    breaklines,
+    tabsize=4,
+    bgcolor=mintedbg
+}
+
+\fi
+
+%% ===============================================
+
+\ifdefined\useappendix
+
+\makeatletter
+\appto{\appendices}{\def\Hy@chapapp{Appendix}}
+\makeatother
+
+\renewcommand{\appendixtocname}{Приложения}
+\renewcommand{\appendixpagename}{Приложения}
+
+\fi
+
+%% ===============================================
+
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+
+%% ===============================================
+
+\ifdefined\usealgo
+
+\SetKwInput{KwData}{Исходные параметры}
+\SetKwInput{KwResult}{Результат}
+\SetKwInput{KwIn}{вход}
+\SetKwInput{KwOut}{выход}
+\SetKwIF{If}{ElseIf}{Else}{если}{тогда}{иначе если}{иначе}{конец если}
+\SetKwFor{While}{пока}{выполнять}{конец пока}
+\SetKw{KwTo}{до}
+\SetKw{KwRet}{вернуть}
+\SetKw{Return}{вернуть}
+\SetKwBlock{Begin}{начало}{конец}
+\SetKwSwitch{Switch}{Case}{Other}{проверить}{и выполнить}{вариант}{в противном случае}{конец вариант}{конец проверить}
+\SetKwFor{For}{от}{выполнять}{конец от}
+\SetKwFor{ForEach}{по всем}{выполнять}{конец по всем}
+\SetKwRepeat{Repeat}{выполнять}{пока}
+\SetAlgorithmName{Алгоритм}{алгоритм}{Список алгоритмов}
+
+\fi
+
+%% ===============================================
