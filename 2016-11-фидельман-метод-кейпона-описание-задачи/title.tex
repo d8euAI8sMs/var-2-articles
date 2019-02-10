@@ -1,0 +1,47 @@
+%% ===============================================
+%% =============== Document Title Page ===========
+%% ===============================================
+
+%% Uses \@title, \@author, \@date, \subtitle, \edition
+%% to form title page
+
+\newmdenv[
+	topline=false,
+	bottomline=false,
+	leftline=false,
+	linewidth=5pt,
+	skipabove=\topsep,
+	skipbelow=\topsep
+]{titlesiderule}
+
+\makeatletter
+\begin{titlepage}
+	
+	\newpage
+	
+	\vspace*{\fill}
+	
+	\begin{titlesiderule}
+		\begin{flushright}
+			\huge\@author
+			\vspace{3em}\\
+			\resizebox{\linewidth}{!}{\@title}
+			\ifdefined\subtitle
+				\vspace{1em}
+				\hrule
+				\vspace{1em}\ \linebreak
+				\Huge\subtitle
+			\fi
+			\ifdefined\edition
+				\vspace{1em}\ \linebreak
+				\large\edition
+			\fi
+		\end{flushright}
+	\end{titlesiderule}
+	
+	\vspace*{\fill}
+	
+	\centering{\huge\@date}
+	
+\end{titlepage}
+\makeatother
